@@ -56,22 +56,24 @@ public class EditProjScreen extends Scene {
         root.getChildren().add(projectDesc);
 
         // Area to save button
-        Button saveButton = new Button("Save"); // This is save button for the project, it will update the current project
+        Button saveButton = new Button("Save"); // This is save button for the project, it will update the current
+                                                // project
         saveButton.setTranslateY(80);
         saveButton.setMaxSize(100, 30);
         saveButton.setTranslateX(((this.getWidth() - 100)) / 2);
         saveButton.setOnAction(event -> {
             if (enterName.getText().equals("")) { // TODO: Add duplicate protection for names
-                if(!enterName.getText().equals(currProject.getProjName())) {
-                    currProject.setProjName(enterName.getText());  // Update the project if the inputed values are not equal to saved values
+                if (!enterName.getText().equals(currProject.getProjName())) {
+                    currProject.setProjName(enterName.getText()); // Update the project if the inputed values are not
+                                                                  // equal to saved values
                 }
-                if(!dPicker.getValue().isEqual(currProject.getProjDate())) {
+                if (!dPicker.getValue().isEqual(currProject.getProjDate())) {
                     currProject.setProjDate(dPicker.getValue());
                 }
-                if(!projectDesc.getText().equals(currProject.getProjDesc())) {
+                if (!projectDesc.getText().equals(currProject.getProjDesc())) {
                     currProject.setProjDesc(projectDesc.getText());
                 }
-            } 
+            }
         });
 
         Button deleteButton = new Button("Delete"); // TODO: Add functionality to delete button
@@ -82,12 +84,14 @@ public class EditProjScreen extends Scene {
         root.getChildren().add(saveButton);
         root.getChildren().add(deleteButton);
 
-        this.widthProperty().addListener((observable, oldValue, newValue) -> { // Listeners for window size change to variably move compenents 
+        this.widthProperty().addListener((observable, oldValue, newValue) -> { // Listeners for window size change to
+                                                                               // variably move compenents
             projLabel.setMinWidth(this.getWidth());
             enterName.setTranslateX((this.getWidth() - 300) / 2);
             dPicker.setTranslateX((this.getWidth() - 300) / 2);
             projectDesc.setTranslateX((this.getWidth() - 300) / 2);
             saveButton.setTranslateX((this.getWidth() - 100) / 2);
+            deleteButton.setTranslateX((this.getWidth() - 100) / 2);
         });
     }
 }
