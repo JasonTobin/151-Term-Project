@@ -1,3 +1,5 @@
+package application;
+
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -8,7 +10,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Button;
 import java.time.LocalDate;
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -61,12 +62,12 @@ public class NewProjectScene extends Scene {
         saveButton.setTranslateY(80);
         saveButton.setMaxSize(100, 30);
         saveButton.setTranslateX((this.getWidth() - 100) / 2);
-        saveButton.setOnAction(event -> {
+        saveButton.setOnAction(event -> { // Listener for click of button
             if (enterName.getText().equals("")) { // TODO: Add duplicate value protection for project names
                 System.out.println("Cannot create new project with no name!"); // Objects must have a nonempty name
             } else {
-                Project createdProj = new Project(enterName.getText(), dPicker.getValue(), projectDesc.getText()); // 
-                TempList.AddProject(createdProj);
+                Project createdProj = new Project(enterName.getText(), dPicker.getValue(), projectDesc.getText()); // Editable date and can have emtpy description
+                TempList.AddProject(createdProj); // TODO: create SQL container for projects. CURRENT IMPLEMENTATION IS TEMPORARY 
                 System.out.println("Clicked!");
                 primaryStage.setScene(new EditProjScreen(primaryStage, new VBox(), width, height, createdProj));
             }

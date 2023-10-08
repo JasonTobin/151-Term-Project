@@ -1,13 +1,14 @@
-import java.util.ArrayList;
+package application;
 
 public class Ticket {
     private String bugName; // requied
     private String bugDesc; // opetional
-    private ArrayList<Comment> commentList;
+    // private ArrayList<Comment> commentList;
 
+    // TODO: Implement tickets and comments
     public boolean AddComment() {
         // Comments are not alphabetically sorted, therefore will be stored in an
-        // ArrayList
+        // ArrayList later on
         return false;
     }
 
@@ -15,6 +16,8 @@ public class Ticket {
         // same as add
         return false;
     }
+
+    // Simple getters and setters
 
     public void setBugName(String n) {
         this.bugName = n;

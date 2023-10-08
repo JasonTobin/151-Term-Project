@@ -1,14 +1,15 @@
+package application;
+
 import java.time.LocalDate;
 import java.util.TreeMap;
 
 public class Project implements Comparable<Project> {
     private String projName;
-    private LocalDate projDate; // Unsure if Date data structure works but for now keep
-    // - Date picker required for this, find some library
+    private LocalDate projDate; // Local Date to store date user chose
     private String projDescription;
     private TreeMap<String, Ticket> TicketCollector;
 
-    public boolean AddTicket(String n) {
+    public boolean AddTicket(String n) { // Add a ticket to the project
         TicketCollector.put(n, new Ticket(n));
         return false;
     }
@@ -17,7 +18,8 @@ public class Project implements Comparable<Project> {
         TicketCollector.put(n, new Ticket(n));
         return false;
     }
-
+    
+    // TODO: implement tickets and their insertion / deletion
     public boolean DeleteTicket() {
         // Figure out how tickets are stored
         return false;
@@ -28,6 +30,8 @@ public class Project implements Comparable<Project> {
     public int compareTo(Project e2) {
         return this.projName.compareTo(e2.projName);
     }
+
+    // Simple getters and setters and constructors
 
     public void setProjName(String n) {
         this.projName = n;
