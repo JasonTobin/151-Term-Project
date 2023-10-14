@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.sql.*;
 
 public class NewProjectScene extends Scene {
     public NewProjectScene(Stage primaryStage, Pane root, double width, double height) {
@@ -63,18 +64,48 @@ public class NewProjectScene extends Scene {
         saveButton.setMaxSize(100, 30);
         saveButton.setTranslateX((this.getWidth() - 100) / 2);
         saveButton.setOnAction(event -> { // Listener for click of button
-            if (enterName.getText().equals("")) { // TODO: Add duplicate value protection for project names
-                System.out.println("Cannot create new project with no name!"); // Objects must have a nonempty name
+            if (enterName.getText().isEmpty() || dPicker.getValue().equals(null)) { // TODO: Add duplicate value
+                                                                                    // protection for project names
+                System.out.println("Please enter project information"); // Objects must have a nonempty name
+                // TODO: Popup box for description
             } else {
-                Project createdProj = new Project(enterName.getText(), dPicker.getValue(), projectDesc.getText()); // Editable date and can have emtpy description
-                TempList.AddProject(createdProj); // TODO: create SQL container for projects. CURRENT IMPLEMENTATION IS TEMPORARY 
+                // Editable date and can have empty description
+                Project createdProj = new Project(enterName.getText(), dPicker.getValue(), projectDesc.getText());
+
+                ProjectList.AddProject(createdProj); // TODO: create SQL container for projects. ***CURRENT
+                                                     // IMPLEMENTATION
+
+                try {
+                    Statement stmt = Main.conn.createStatement();
+                    stmt.executeUpdate(
+                            "INSERT INTO tbl_projects (project_name, project_date, project_desc) VALUES ('" +
+                                    createdProj.getProjName() + "','" + createdProj.getProjDate().toString() + "','"
+                                    + createdProj.getProjDesc() + "')");
+                    Main.loadData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 System.out.println("Clicked!");
                 primaryStage.setScene(new EditProjScreen(primaryStage, new VBox(), width, height, createdProj));
             }
         });
         root.getChildren().add(saveButton);
 
-        this.widthProperty().addListener((observable, oldValue, newValue) -> { // Listeners for window size change to variably move compenents 
+        Button homeButton = new Button("⌂");
+        homeButton.setLayoutX(0);
+        Font homeFont = Font.font("Segoe UI", FontWeight.BOLD, FontPosture.REGULAR, 20);
+        homeButton.setFont(homeFont);
+        root.getChildren().add(homeButton);
+        homeButton.setTranslateY(-255);
+        homeButton.setMaxSize(30, 30);
+        homeButton.setOnAction(event -> {
+            ConfirmScene confirmWindow = new ConfirmScene(primaryStage, new VBox(),
+                    "Any unsaved data will be lost!");
+        });
+
+        this.widthProperty().addListener((observable, oldValue, newValue) -> { // Listeners for window size change to
+                                                                               // variably move compenents
             projLabel.setMinWidth(this.getWidth());
             enterName.setTranslateX((this.getWidth() - 300) / 2);
             dPicker.setTranslateX((this.getWidth() - 300) / 2);

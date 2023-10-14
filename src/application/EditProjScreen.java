@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class EditProjScreen extends Scene {
@@ -58,7 +59,7 @@ public class EditProjScreen extends Scene {
         // Area to save button
         Button saveButton = new Button("Save"); // This is save button for the project, it will update the current
                                                 // project
-        saveButton.setTranslateY(80);
+        saveButton.setTranslateY(60); // TODO: Fix movement of buttons between scenes
         saveButton.setMaxSize(100, 30);
         saveButton.setTranslateX(((this.getWidth() - 100)) / 2);
         saveButton.setOnAction(event -> {
@@ -80,6 +81,18 @@ public class EditProjScreen extends Scene {
         deleteButton.setMaxSize(100, 30);
         deleteButton.setTranslateX((this.getWidth() - 100) / 2);
         deleteButton.setTranslateY(100);
+
+        Button homeButton = new Button("⌂");
+        homeButton.setLayoutX(0);
+        Font homeFont = Font.font("Segoe UI", FontWeight.BOLD, FontPosture.REGULAR, 20);
+        homeButton.setFont(homeFont);
+        root.getChildren().add(homeButton);
+        homeButton.setTranslateY(-230);
+        homeButton.setMaxSize(30, 30);
+        homeButton.setOnAction(event -> {
+            ConfirmScene confirmWindow = new ConfirmScene(primaryStage, new VBox(),
+                    "Any unsaved data will be lost!");
+        });
 
         root.getChildren().add(saveButton);
         root.getChildren().add(deleteButton);

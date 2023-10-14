@@ -48,7 +48,8 @@ public class HomeScreen extends Scene {
         root.getChildren().add(newProjButton);
         root.getChildren().add(searchButton);
 
-        this.widthProperty().addListener((observable, oldValue, newValue) -> { // Listeners for window size change to variably move compenents 
+        this.widthProperty().addListener((observable, oldValue, newValue) -> { // Listeners for window size change to
+                                                                               // variably move compenents
             projLabel.setMinWidth(this.getWidth());
             searchButton.setTranslateX((this.getWidth() - 300) / 2);
             newProjButton.setTranslateX((this.getWidth() - 300) / 2);

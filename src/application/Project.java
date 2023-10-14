@@ -18,7 +18,7 @@ public class Project implements Comparable<Project> {
         TicketCollector.put(n, new Ticket(n));
         return false;
     }
-    
+
     // TODO: implement tickets and their insertion / deletion
     public boolean DeleteTicket() {
         // Figure out how tickets are stored
