@@ -32,6 +32,7 @@ public class HomeScreen extends Scene {
         searchButton.setTranslateX((this.getWidth() - 300) / 2);
         searchButton.setOnAction(event -> {
             // Go to edit project sceen where project and ticket show up
+            primaryStage.setScene(new SearchScene(primaryStage, new VBox(), width, height));
         });
 
         Button newProjButton = new Button("New Project");

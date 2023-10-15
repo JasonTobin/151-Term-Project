@@ -42,9 +42,9 @@ public class Main extends Application { // inherit application to allow usage in
         System.out.println("Checking table");
         String sql = "CREATE TABLE IF NOT EXISTS tbl_projects (" +
                 "   id integer PRIMARY KEY AUTOINCREMENT," +
-                "   project_name text NOT NULL," +
+                "   project_name text NOT NULL UNIQUE," +
                 "   project_date text NOT NULL," +
-                "   project_desc text NOT NULL" +
+                "   project_desc text" +
                 ");";
         try {
             Statement stmt = conn.createStatement();

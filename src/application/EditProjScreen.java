@@ -63,7 +63,7 @@ public class EditProjScreen extends Scene {
         saveButton.setMaxSize(100, 30);
         saveButton.setTranslateX(((this.getWidth() - 100)) / 2);
         saveButton.setOnAction(event -> {
-            if (enterName.getText().equals("")) { // TODO: Add duplicate protection for names
+            if (!enterName.getText().equals("")) { // TODO: Add duplicate protection for names
                 if (!enterName.getText().equals(currProject.getProjName())) {
                     currProject.setProjName(enterName.getText()); // Update the project if the inputed values are not
                                                                   // equal to saved values
@@ -75,6 +75,7 @@ public class EditProjScreen extends Scene {
                     currProject.setProjDesc(projectDesc.getText());
                 }
             }
+            primaryStage.setScene(new HomeScreen(primaryStage, new VBox(), width, height));
         });
 
         Button deleteButton = new Button("Delete"); // TODO: Add functionality to delete button

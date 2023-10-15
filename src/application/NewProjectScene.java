@@ -81,13 +81,13 @@ public class NewProjectScene extends Scene {
                             "INSERT INTO tbl_projects (project_name, project_date, project_desc) VALUES ('" +
                                     createdProj.getProjName() + "','" + createdProj.getProjDate().toString() + "','"
                                     + createdProj.getProjDesc() + "')");
-                    Main.loadData();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 System.out.println("Clicked!");
-                primaryStage.setScene(new EditProjScreen(primaryStage, new VBox(), width, height, createdProj));
+                primaryStage.setScene(new SearchScene(primaryStage, new VBox(), width, height));
             }
         });
         root.getChildren().add(saveButton);
