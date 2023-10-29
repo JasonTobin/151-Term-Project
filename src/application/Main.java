@@ -1,41 +1,40 @@
 package application;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
-//TODO: For most of the on screen formatting TranslateX/Y is used, find a way to better do this
-
-public class Main extends Application { // inherit application to allow usage in Main class
-    public static final int DIMENSION = 500;
-    static Connection conn;
+public class Main extends Application {
+    public static MainController control = new MainController();
+    public static Connection conn;
 
     @Override
-    public void start(Stage primaryStage) {
-        try {
-            /*
-             * Below line of code creates the home screen, object with a VBOX layout
-             * The default dimensions for this application are 500x500 therefor a constant
-             * will be used
-             */
-            HomeScreen home = new HomeScreen(primaryStage, new VBox(), DIMENSION, DIMENSION);
-            primaryStage.setMinWidth(DIMENSION);
-            primaryStage.setMinHeight(DIMENSION);
-            primaryStage.setTitle("Anteater V0.2");
-            primaryStage.setScene(home);
-            primaryStage.show();
-            primaryStage.setOnCloseRequest(event -> {
-                try {
-                    conn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("testing.fxml"));
+        Parent root = loader.load();
+
+        control = loader.getController();
+
+        control.setHome();
+
+        primaryStage.setTitle("Anteater V0.4");
+        primaryStage.setScene(new Scene(root, 900, 600));
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(900);
+        for (Project p : ProjectList.getList()) {
+            control.addToScroll(p);
         }
+        for (Ticket t : TicketList.getList()) {
+            control.addToTicketScroll(t);
+        }
+        primaryStage.show();
     }
 
     private static void checkTables() {
@@ -46,9 +45,18 @@ public class Main extends Application { // inherit application to allow usage in
                 "   project_date text NOT NULL," +
                 "   project_desc text" +
                 ");";
+        String secondql = "CREATE TABLE IF NOT EXISTS tbl_tickets (" +
+                "   id integer PRIMARY KEY AUTOINCREMENT," +
+                "   ticket_name text NOT NULL UNIQUE," +
+                "   ticket_date text NOT NULL," +
+                "   ticket_proj text NOT NULL," +
+                "   ticket_comms text," +
+                "   ticket_desc text" +
+                ");";
         try {
             Statement stmt = conn.createStatement();
             stmt.executeUpdate(sql);
+            stmt.executeUpdate(secondql);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +69,15 @@ public class Main extends Application { // inherit application to allow usage in
             Statement stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from tbl_projects");
             while (rs.next()) {
-                ProjectList.AddProject(new Project(rs.getString(2), LocalDate.parse(rs.getString(3)), rs.getString(4)));
+                Project createdProject = new Project(rs.getString(2), LocalDate.parse(rs.getString(3)),
+                        rs.getString(4));
+                ProjectList.AddProject(createdProject);
+            }
+            rs = stmt.executeQuery("select * from tbl_tickets");
+            while (rs.next()) {
+                Ticket createdTicket = new Ticket(rs.getString(2), LocalDate.parse(rs.getString(3)), rs.getString(4),
+                        rs.getString(6), rs.getString(5));
+                TicketList.AddTicket(createdTicket);
             }
             rs.close();
         } catch (Exception e) {
@@ -74,6 +90,7 @@ public class Main extends Application { // inherit application to allow usage in
         try {
             conn = DriverManager.getConnection(url);
             checkTables();
+            control.initialize();
             loadData();
         } catch (Exception e) {
             e.printStackTrace();
