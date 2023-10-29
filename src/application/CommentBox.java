@@ -8,12 +8,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.layout.StackPane;
 
+// Box to display comments on ticketDisplay
 public class CommentBox extends StackPane {
     private String comment;
     public boolean clicked = false;
     private static int spacing = 0;
     private Rectangle rectangle;
 
+    // Return rectangle in order to change color
     public Rectangle getRectangle() {
         return this.rectangle;
     }

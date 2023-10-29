@@ -21,6 +21,7 @@ public class TicketBox extends StackPane {
         return this.rectangle;
     }
 
+    // Ticket box similar to project box
     public TicketBox(Ticket createdTicket) {
         this.tick = createdTicket;
         rectangle = new Rectangle(190, 50);
@@ -38,6 +39,7 @@ public class TicketBox extends StackPane {
 
         this.getChildren().addAll(rectangle, tabName);
 
+        // Show user which ticket is selected, just like project box
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

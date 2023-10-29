@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    // Public static controller to allow other classes to access
     public static MainController control = new MainController();
     public static Connection conn;
 
@@ -28,6 +29,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 900, 600));
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(900);
+        // Add tickets and projects to scroll panes on UI
         for (Project p : ProjectList.getList()) {
             control.addToScroll(p);
         }
@@ -37,6 +39,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    // Create tables if they dont exist, and verify that they do
     private static void checkTables() {
         System.out.println("Checking table");
         String sql = "CREATE TABLE IF NOT EXISTS tbl_projects (" +
@@ -62,6 +65,7 @@ public class Main extends Application {
         }
     }
 
+    // Load the projects, tickets, and comments into correct locations
     public static void loadData() {
         System.out.println("Loading data");
         ResultSet rs;
@@ -90,6 +94,7 @@ public class Main extends Application {
         try {
             conn = DriverManager.getConnection(url);
             checkTables();
+            // Initialize components on fxml file
             control.initialize();
             loadData();
         } catch (Exception e) {

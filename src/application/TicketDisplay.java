@@ -92,6 +92,12 @@ public class TicketDisplay extends Pane {
 
         layout.getChildren().add(commentPane);
 
+        /*
+         * Although following code looks complex, it serves a few purposes
+         * - A UI prompt to allow the user to enter in a comment
+         * - Although not neccessary, in order to stop submenu after submenu, popup box
+         * is used
+         */
         Button addComment = new Button("Add Comment");
         Font buttonFont = Font.font("Segoe UI", FontWeight.NORMAL, FontPosture.REGULAR, 20);
         addComment.setFont(buttonFont);
@@ -111,12 +117,14 @@ public class TicketDisplay extends Pane {
             sureStage.setResizable(false);
             sureStage.setTitle("Comment");
 
+            // Label prompting the user
             Label confirmText = new Label("Enter Comment");
             confirmText.setTranslateY(10);
             confirmText.setFont(buttonFont);
             confirmText.setTextFill(Color.BLACK);
             confirmText.setMaxWidth(200);
 
+            // User text entry
             TextArea commArea = new TextArea();
             commArea.setTranslateY(20);
             commArea.setPrefSize(200, 100);
@@ -132,6 +140,8 @@ public class TicketDisplay extends Pane {
 
                 String updateSql = "UPDATE tbl_tickets SET ticket_comms = ? WHERE ticket_name = ?";
 
+                // Pass the new comment to sql to update SQLite container with new comment
+                // Allows the saving of components
                 try (PreparedStatement pstmt = Main.conn.prepareStatement(updateSql)) {
                     pstmt.setString(1, comments); // Bind the comment text
                     pstmt.setString(2, t.getBugName()); // Bind the ticket name
@@ -139,6 +149,7 @@ public class TicketDisplay extends Pane {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                // Showcase the comment in the bottom of the display
                 CommentBox commentBox = new CommentBox(text);
                 commentHolder.getChildren().add(commentBox); // Set the StackPane as content of the ScrollPane
                 sureStage.close();

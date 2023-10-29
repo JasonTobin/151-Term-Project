@@ -9,7 +9,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class MainController {
-    int scrollVBWidth = 539;
+    int scrollVBWidth = 539; // This is most likely subject to change in order to make visibility easier. For
+                             // now keep
 
     public static ProjectBox clickedBox;
     public static TicketBox clickedTickBox;
@@ -17,26 +18,31 @@ public class MainController {
     @FXML
     private ScrollPane scroolHolder;
 
+    // Set the screen to the home of the applicaiton
     public void setHome() {
         ScrollPane scroolHolder = Main.control.scroolHolder;
         scroolHolder.setContent(new Home());
     }
 
+    // New Project panel
     public void setNewProj() {
         ScrollPane scroolHolder = Main.control.scroolHolder;
         scroolHolder.setContent(new NewProject());
     }
 
+    // New ticket panel
     public void setNewTicket() {
         ScrollPane scroolHolder = Main.control.scroolHolder;
         scroolHolder.setContent(new NewTicket());
     }
 
+    // Display a selected propject
     public void setDisplayProj(Project createdProj) {
         ScrollPane scroolHolder = Main.control.scroolHolder;
         scroolHolder.setContent(new ProjectDisplay(createdProj));
     }
 
+    // Display a selected ticket
     public void setDisplayTick(Ticket createdTicket) {
         ScrollPane scroolHolder = Main.control.scroolHolder;
         scroolHolder.setContent(new TicketDisplay(createdTicket));
@@ -57,6 +63,7 @@ public class MainController {
     @FXML
     private VBox ticketVBox;
 
+    // Add a new project to it's list on the sidebar
     public void addToScroll(Project createdProject) { // TODO: Add a search feature for these boxes
         VBox scrollVBox = Main.control.scrollVBox;
         ProjectBox newBox = new ProjectBox(createdProject);
@@ -69,19 +76,20 @@ public class MainController {
         projScroll.layout(); // Force a layout pass
     }
 
+    // Same as project search just with tickets
     public void addToTicketScroll(Ticket createdTicket) {
         VBox ticketVBox = Main.control.ticketVBox;
         ticketVBox.getChildren().add(new TicketBox(createdTicket)); // TODO: Create ticketbox
         ticketScroll.layout();
     }
 
-    @FXML
+    @FXML // For the new project button in top left
     private void handleButtonClick(ActionEvent event) {
         System.out.println("Clicked!");
         setNewProj();
     }
 
-    @FXML
+    @FXML // For the new ticket button in top right
     private void ticketButtonClick(ActionEvent event) {
         System.out.println("New Ticket Clicked");
         this.setNewTicket();
@@ -90,6 +98,7 @@ public class MainController {
     @FXML
     private TextField serachArea;
 
+    // Initialize fxml components to access later on. Called on application open
     public void initialize() {
         if (serachArea == null) {
             serachArea = new TextField();

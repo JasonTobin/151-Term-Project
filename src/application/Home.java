@@ -15,6 +15,7 @@ public class Home extends Pane {
     // width 450
     // height 600
 
+    // Middle home panel
     public Home() {
         super();
 

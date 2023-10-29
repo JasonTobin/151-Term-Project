@@ -21,6 +21,9 @@ public class ProjectBox extends StackPane {
         return this.rectangle;
     }
 
+    // Box to dispaly projects in
+    // Own class to allow modular storage and sorting in later search feather
+    // TODO: Add comparison capabilities in order to allow this to be searchable
     public ProjectBox(Project createdProj) {
         this.proj = createdProj;
         rectangle = new Rectangle(190, 50);
@@ -38,6 +41,7 @@ public class ProjectBox extends StackPane {
 
         this.getChildren().addAll(rectangle, tabName);
 
+        // Show the user which box is clicked by changing the color
         this.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

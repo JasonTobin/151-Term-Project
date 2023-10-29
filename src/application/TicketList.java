@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class TicketList {
+    // Exact same as projectList, but for tickets
     private static ArrayList<Ticket> ticketList = new ArrayList<Ticket>();
 
     private static Comparator<Ticket> com = new Comparator<Ticket>() {
