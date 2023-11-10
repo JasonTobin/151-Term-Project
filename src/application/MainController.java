@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class MainController {
     int scrollVBWidth = 539; // This is most likely subject to change in order to make visibility easier. For
@@ -49,10 +50,50 @@ public class MainController {
     }
 
     @FXML
-    private Pane paneHolder;
+    private TextField searchArea;
 
     @FXML
-    private VBox scrollVBox;
+    private VBox scrollVBox; // holder for project list display
+
+    public void updateScrollProj() { // updates scrollVBox
+        String curString = searchArea.getText();
+        // System.out.println(curString); // ***Delete at later point: checking for
+        // string
+
+        scrollVBox = Main.control.scrollVBox; // Clear box so only displayed ones are with valid strings
+        scrollVBox.getChildren().clear();
+
+        for (int i = 0; i < ProjectList.getList().size(); i++) {
+            if (ProjectList.getList().get(i).getProjName().toLowerCase().contains(curString.toLowerCase())) {
+                addToScroll(ProjectList.getList().get(i));
+            }
+        }
+    }
+
+    @FXML
+    private TextField searchTickets;
+
+    @FXML
+    private VBox ticketVBox;
+
+    public void updateScrollTicket() {
+        searchTickets = Main.control.searchTickets;
+        String curString = searchTickets.getText();
+        // System.out.println(curString); // ***Delete at later point: checking for
+        // string
+
+        ticketVBox = Main.control.ticketVBox; // Clear box so only displayed ones are with valid strings
+        ticketVBox.getChildren().clear();
+
+        for (int i = 0; i < TicketList.getList().size(); i++) {
+            if (TicketList.getList().get(i).getBugName().toLowerCase().contains(curString.toLowerCase())) {
+                addToTicketScroll(TicketList.getList().get(i));
+            }
+        }
+    }
+
+    @FXML
+    private Pane paneHolder;
 
     @FXML
     private ScrollPane projScroll;
@@ -60,19 +101,12 @@ public class MainController {
     @FXML
     private ScrollPane ticketScroll;
 
-    @FXML
-    private VBox ticketVBox;
-
     // Add a new project to it's list on the sidebar
     public void addToScroll(Project createdProject) { // TODO: Add a search feature for these boxes
         VBox scrollVBox = Main.control.scrollVBox;
         ProjectBox newBox = new ProjectBox(createdProject);
         scrollVBox.getChildren().add(newBox);
         // Get the size after adding the ProjectBox
-        if (ProjectList.getList().size() > 14) {
-            scrollVBWidth += 18;
-            scrollVBox.setMinSize(210, scrollVBWidth);
-        }
         projScroll.layout(); // Force a layout pass
     }
 
@@ -95,14 +129,15 @@ public class MainController {
         this.setNewTicket();
     }
 
-    @FXML
-    private TextField serachArea;
-
     // Initialize fxml components to access later on. Called on application open
     public void initialize() {
-        if (serachArea == null) {
-            serachArea = new TextField();
-            serachArea.setPromptText("Search Projects");
+        if (searchTickets == null) {
+            searchTickets = new TextField();
+            searchTickets.setPromptText("Search Tickets");
+        }
+        if (searchArea == null) {
+            searchArea = new TextField();
+            searchArea.setPromptText("Search Projects");
         }
         if (projScroll == null) {
             projScroll = new ScrollPane();

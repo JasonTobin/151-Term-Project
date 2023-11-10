@@ -30,7 +30,7 @@ public class ProjectBox extends StackPane {
         rectangle.setFill(Color.WHITE);
         rectangle.setStroke(Color.BLACK);
         this.setTranslateX(-10);
-        this.setTranslateY(spacing);
+        // this.setTranslateY(spacing);
         spacing++;
 
         this.name = createdProj.getProjName();
