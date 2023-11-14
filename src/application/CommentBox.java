@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane;
 public class CommentBox extends StackPane {
     private String comment;
     public boolean clicked = false;
-    private static int spacing = 0;
+    // private static int spacing = 0;
     private Rectangle rectangle;
 
     // Return rectangle in order to change color
@@ -26,8 +26,8 @@ public class CommentBox extends StackPane {
         rectangle.setFill(Color.WHITE);
         rectangle.setStroke(Color.BLACK);
         this.setTranslateX(-10);
-        this.setTranslateY(spacing);
-        spacing++;
+        // this.setTranslateY(spacing);
+        // spacing++;
 
         Text tabName = new Text(this.comment);
         Font font = Font.font("Segoe UI", FontWeight.NORMAL, FontPosture.REGULAR, 15);

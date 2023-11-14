@@ -14,7 +14,6 @@ public class TicketBox extends StackPane {
     private String name;
     private Ticket tick;
     public boolean clicked = false;
-    private static int spacing = 0;
     private Rectangle rectangle;
 
     public Rectangle getRectangle() {
@@ -29,7 +28,6 @@ public class TicketBox extends StackPane {
         rectangle.setStroke(Color.BLACK);
         this.setTranslateX(-10);
         // this.setTranslateY(spacing);
-        spacing++;
 
         this.name = createdTicket.getBugName();
 

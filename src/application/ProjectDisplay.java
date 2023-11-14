@@ -33,6 +33,7 @@ public class ProjectDisplay extends Pane {
 
         // Text Field to for name of project
         TextField enterName = new TextField();
+        enterName.setEditable(false);
         enterName.setText(p.getProjName());
         enterName.setFocusTraversable(false);
         enterName.setMinSize(300, 40);
@@ -44,6 +45,11 @@ public class ProjectDisplay extends Pane {
 
         // Uneditable date picker for object
         DatePicker dPicker = new DatePicker();
+        dPicker.setEditable(false);
+        dPicker.setDisable(true);
+        dPicker.setStyle("-fx-opacity: 1");
+        dPicker.getEditor().setStyle("-fx-opacity: 1"); // Set disable is annoying in it's properties, change style to
+                                                        // look normal
         dPicker.setValue(p.getProjDate());
         dPicker.setEditable(false);
         dPicker.setFocusTraversable(false);
@@ -54,6 +60,7 @@ public class ProjectDisplay extends Pane {
 
         // Text area with prompt text
         TextArea projectDesc = new TextArea();
+        projectDesc.setEditable(false);
         projectDesc.setText(p.getProjDesc());
         projectDesc.setWrapText(true);
         projectDesc.setFocusTraversable(false);
@@ -70,6 +77,15 @@ public class ProjectDisplay extends Pane {
             Main.control.setNewTicket();
         });
         layout.getChildren().add(newTicket);
+
+        Button editButton = new Button("Edit");
+        editButton.setTranslateY(100);
+        editButton.setFont(customFont);
+        editButton.setOnAction(event -> {
+            System.out.println("edit button clicked");
+            Main.control.setEditProject(p);
+        });
+        layout.getChildren().add(editButton);
 
         this.getChildren().add(layout);
     }

@@ -68,6 +68,10 @@ public class Ticket implements Comparable<Ticket> {
         return this.bugDate;
     }
 
+    public void setTicketProjectName(String s) {
+        this.projName = s;
+    }
+
     public String getTicketProject() {
         return this.projName;
     }

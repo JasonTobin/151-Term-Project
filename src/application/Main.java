@@ -25,7 +25,7 @@ public class Main extends Application {
 
         control.setHome();
 
-        primaryStage.setTitle("Anteater V0.4");
+        primaryStage.setTitle("Anteater V0.5");
         primaryStage.setScene(new Scene(root, 900, 600));
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(900);
@@ -79,8 +79,9 @@ public class Main extends Application {
             }
             rs = stmt.executeQuery("select * from tbl_tickets");
             while (rs.next()) {
-                Ticket createdTicket = new Ticket(rs.getString(2), LocalDate.parse(rs.getString(3)), rs.getString(4),
-                        rs.getString(6), rs.getString(5));
+                Ticket createdTicket = new Ticket(rs.getString(2), LocalDate.parse(rs.getString(3)), rs.getString(6),
+                        rs.getString(4), rs.getString(5)); // TODO: Make the parameters of constructor line up better
+                                                           // with column layout of database
                 TicketList.AddTicket(createdTicket);
             }
             rs.close();

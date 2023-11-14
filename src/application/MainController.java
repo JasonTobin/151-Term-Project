@@ -7,7 +7,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class MainController {
     int scrollVBWidth = 539; // This is most likely subject to change in order to make visibility easier. For
@@ -47,6 +46,11 @@ public class MainController {
     public void setDisplayTick(Ticket createdTicket) {
         ScrollPane scroolHolder = Main.control.scroolHolder;
         scroolHolder.setContent(new TicketDisplay(createdTicket));
+    }
+
+    public void setEditProject(Project p) {
+        ScrollPane scroolHolder = Main.control.scroolHolder;
+        scroolHolder.setContent(new EditProject(p));
     }
 
     @FXML

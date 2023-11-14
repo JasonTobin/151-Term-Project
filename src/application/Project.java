@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.util.TreeMap;
 
 public class Project implements Comparable<Project> {
+    public static int idCount = 1;
     private String projName;
     private LocalDate projDate; // Local Date to store date user chose
     private String projDescription;
     private TreeMap<String, Ticket> TicketCollector;
+    private int id;
 
     public boolean AddTicket(String n) { // Add a ticket to the project
         TicketCollector.put(n, new Ticket(n));
@@ -17,6 +19,10 @@ public class Project implements Comparable<Project> {
     public boolean AddTicket(String n, String d) {
         TicketCollector.put(n, new Ticket(n));
         return false;
+    }
+
+    public TreeMap<String, Ticket> getTickerCollector() {
+        return this.TicketCollector;
     }
 
     // TODO: implement tickets and their insertion / deletion
@@ -60,10 +66,21 @@ public class Project implements Comparable<Project> {
         return this.projDescription;
     }
 
+    public void setID(int i) {
+        this.id = i;
+    }
+
+    public int getID() {
+        return this.id;
+    }
+
     public Project(String n, LocalDate p, String d) {
         this.projDate = p;
         this.projName = n;
         this.projDescription = d;
+        this.id = idCount;
+        idCount++; // TODO: Add a better implementation for the id system, will cause issues when
+                   // deletion comes about
         this.TicketCollector = new TreeMap<String, Ticket>();
     }
 
