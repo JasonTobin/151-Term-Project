@@ -22,7 +22,8 @@ public class ProjectBox extends StackPane {
 
     // Box to dispaly projects in
     // Own class to allow modular storage and sorting in later search feather
-    // TODO: Add comparison capabilities in order to allow this to be searchable
+    // TODO: Fix box selection color (Gray color when clicked) on new project ***
+    // Same thing as tickets
     public ProjectBox(Project createdProj) {
         this.proj = createdProj;
         rectangle = new Rectangle(190, 50);

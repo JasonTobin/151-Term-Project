@@ -78,14 +78,16 @@ public class NewProject extends Pane {
                 System.out.println("Name already found, please enter in correct name");
             } else {
                 // Editable date and can have empty description
-                Project createdProj = new Project(enterName.getText(), dPicker.getValue(), projectDesc.getText());
+                Project createdProj = new Project(enterName.getText(), dPicker.getValue(), projectDesc.getText(),
+                        Project.idCount);
 
                 ProjectList.AddProject(createdProj);
 
                 try {
                     Statement stmt = Main.conn.createStatement();
                     stmt.executeUpdate(
-                            "INSERT INTO tbl_projects (project_name, project_date, project_desc) VALUES ('" +
+                            "INSERT INTO tbl_projects (id, project_name, project_date, project_desc) VALUES ('"
+                                    + createdProj.getID() + "','" +
                                     createdProj.getProjName() + "','" + createdProj.getProjDate().toString() + "','"
                                     + createdProj.getProjDesc() + "')");
 
@@ -97,6 +99,7 @@ public class NewProject extends Pane {
                 Main.control.setDisplayProj(createdProj);
                 Main.control.addToScroll(createdProj);
             }
+            Main.control.updateScrollProj();
         });
         layout.getChildren().add(saveButton);
 

@@ -10,7 +10,6 @@ public class Ticket implements Comparable<Ticket> {
     private LocalDate bugDate;
     private ArrayList<String> commentList = new ArrayList<>();
 
-    // TODO: Implement tickets and comments
     public boolean AddComment(String s) {
         commentList.add(s);
         return false;

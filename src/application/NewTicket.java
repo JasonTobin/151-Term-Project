@@ -81,7 +81,6 @@ public class NewTicket extends Pane {
         saveButton.setTranslateX(-50);
         saveButton.setFont(buttonFont);
         saveButton.setOnAction(event -> {
-            // TODO: Save ticket display in right drop down box
             if (enterName.getText().isEmpty() || dPicker.getValue().equals(null)) { // TODO: Add duplicate value
                 // protection for project names
                 System.out.println("Please enter project information"); // Objects must have a nonempty name

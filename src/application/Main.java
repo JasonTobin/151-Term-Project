@@ -74,8 +74,13 @@ public class Main extends Application {
             rs = stmt.executeQuery("select * from tbl_projects");
             while (rs.next()) {
                 Project createdProject = new Project(rs.getString(2), LocalDate.parse(rs.getString(3)),
-                        rs.getString(4));
+                        rs.getString(4), rs.getInt(1));
                 ProjectList.AddProject(createdProject);
+                if (createdProject.getID() > Project.idCount) {
+                    Project.idCount = createdProject.getID() + 1; // Id count is always 1 above the max id given to stop
+                                                                  // any issues. Technically if 2^64 entries are added
+                                                                  // can have issues
+                }
             }
             rs = stmt.executeQuery("select * from tbl_tickets");
             while (rs.next()) {

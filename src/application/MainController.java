@@ -106,7 +106,7 @@ public class MainController {
     private ScrollPane ticketScroll;
 
     // Add a new project to it's list on the sidebar
-    public void addToScroll(Project createdProject) { // TODO: Add a search feature for these boxes
+    public void addToScroll(Project createdProject) {
         VBox scrollVBox = Main.control.scrollVBox;
         ProjectBox newBox = new ProjectBox(createdProject);
         scrollVBox.getChildren().add(newBox);
@@ -117,7 +117,7 @@ public class MainController {
     // Same as project search just with tickets
     public void addToTicketScroll(Ticket createdTicket) {
         VBox ticketVBox = Main.control.ticketVBox;
-        ticketVBox.getChildren().add(new TicketBox(createdTicket)); // TODO: Create ticketbox
+        ticketVBox.getChildren().add(new TicketBox(createdTicket));
         ticketScroll.layout();
     }
 

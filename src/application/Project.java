@@ -25,7 +25,6 @@ public class Project implements Comparable<Project> {
         return this.TicketCollector;
     }
 
-    // TODO: implement tickets and their insertion / deletion
     public boolean DeleteTicket() {
         // Figure out how tickets are stored
         return false;
@@ -74,13 +73,12 @@ public class Project implements Comparable<Project> {
         return this.id;
     }
 
-    public Project(String n, LocalDate p, String d) {
+    public Project(String n, LocalDate p, String d, int i) {
         this.projDate = p;
         this.projName = n;
         this.projDescription = d;
-        this.id = idCount;
-        idCount++; // TODO: Add a better implementation for the id system, will cause issues when
-                   // deletion comes about
+        this.id = i;
+        idCount++;
         this.TicketCollector = new TreeMap<String, Ticket>();
     }
 
