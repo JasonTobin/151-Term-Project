@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
@@ -131,9 +132,6 @@ public class ProjectDisplay extends Pane {
                 Main.control.updateScrollProj(); // Update UI
                 Main.control.setHome(); // return to home
 
-                // TODO: Find out if deleting a project should also delete any related tickets
-                // from proffessor
-
                 // Update SQL
                 try {
                     String deleteQuery = "DELETE FROM tbl_projects WHERE id = ?";
@@ -145,9 +143,31 @@ public class ProjectDisplay extends Pane {
                     } else {
                         System.out.println("Project not round or could not be deleted");
                     }
+
+                    String deleteQueryTickets = "DELETE FROM tbl_tickets WHERE ticket_proj  = ?";
+                    PreparedStatement prepStatmentTickets = Main.conn.prepareStatement(deleteQueryTickets);
+                    prepStatmentTickets.setString(1, p.getProjName());
+                    prepStatmentTickets.executeUpdate();
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                // Update TicketList
+                ArrayList<Ticket> temp = new ArrayList<>();
+                for (Ticket t : TicketList.getList()) {
+                    if (t.getTicketProject().toLowerCase().equals(p.getProjName().toLowerCase())) {
+                        temp.add(t);
+                    }
+                }
+
+                for (Ticket t : temp) {
+                    TicketList.getList().remove(t);
+                }
+
+                // Update Ticket UI
+                Main.control.updateScrollTicket();
+
             });
             root.getChildren().add(confirmButton);
 
