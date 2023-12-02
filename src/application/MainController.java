@@ -31,9 +31,9 @@ public class MainController {
     }
 
     // New ticket panel
-    public void setNewTicket() {
+    public void setNewTicket(Project p) {
         ScrollPane scroolHolder = Main.control.scroolHolder;
-        scroolHolder.setContent(new NewTicket());
+        scroolHolder.setContent(new NewTicket(p));
     }
 
     // Display a selected propject
@@ -51,6 +51,11 @@ public class MainController {
     public void setEditProject(Project p) {
         ScrollPane scroolHolder = Main.control.scroolHolder;
         scroolHolder.setContent(new EditProject(p));
+    }
+
+    public void setEditTicket(Ticket t) {
+        ScrollPane scroolHolder = Main.control.scroolHolder;
+        scroolHolder.setContent(new EditTicket(t));
     }
 
     @FXML
@@ -130,7 +135,7 @@ public class MainController {
     @FXML // For the new ticket button in top right
     private void ticketButtonClick(ActionEvent event) {
         System.out.println("New Ticket Clicked");
-        this.setNewTicket();
+        this.setNewTicket(ProjectList.getList().get(0));
     }
 
     // Initialize fxml components to access later on. Called on application open

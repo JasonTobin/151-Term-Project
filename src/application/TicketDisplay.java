@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -46,10 +48,14 @@ public class TicketDisplay extends Pane {
         dropDown.setPromptText(t.getTicketProject());
         dropDown.setTranslateY(20);
         dropDown.setMinSize(300, 40);
+        dropDown.setEditable(false);
+        dropDown.setMouseTransparent(true);
+        dropDown.setStyle("-fx-opacity: 1");
         layout.getChildren().add(dropDown);
 
         // Text Field to for name of project
         TextField enterName = new TextField();
+        enterName.setEditable(false);
         enterName.setText(t.getBugName());
         enterName.setFocusTraversable(false);
         enterName.setMinSize(300, 40);
@@ -60,7 +66,12 @@ public class TicketDisplay extends Pane {
 
         // Mutable date picker for object
         DatePicker dPicker = new DatePicker();
-        dPicker.setValue(LocalDate.now());
+        dPicker.setEditable(false);
+        dPicker.setDisable(true);
+        dPicker.setStyle("-fx-opacity: 1");
+        dPicker.getEditor().setStyle("-fx-opacity: 1"); // Set disable is annoying in it's properties, change style to
+                                                        // look normal
+        dPicker.setValue(t.getBugDate());
         dPicker.setFocusTraversable(false);
         dPicker.setMaxSize(300, 40);
         dPicker.setMinSize(300, 40);
@@ -69,6 +80,7 @@ public class TicketDisplay extends Pane {
 
         // Text area with prompt text
         TextArea projectDesc = new TextArea();
+        projectDesc.setEditable(false);
         projectDesc.setText(t.getBugDesc());
         projectDesc.setWrapText(true);
         projectDesc.setFocusTraversable(false);
@@ -79,11 +91,13 @@ public class TicketDisplay extends Pane {
         ScrollPane commentPane = new ScrollPane();
         commentPane.setTranslateY(100);
         commentPane.setMinHeight(120);
+        commentPane.setMaxWidth(300);
+        commentPane.setMaxHeight(120);
 
         VBox commentHolder = new VBox(); // gridpane might be better
         commentHolder.setSpacing(1);
-        commentHolder.setMinHeight(151);
-        for (String s : t.getList()) {
+        commentHolder.setMinHeight(150);
+        for (String s : t.getComList()) {
             CommentBox cB = new CommentBox(s);
             commentHolder.getChildren().add(cB);
         }
@@ -98,11 +112,13 @@ public class TicketDisplay extends Pane {
          * - Although not neccessary, in order to stop submenu after submenu, popup box
          * is used
          */
+        Font lowerButtonFont = Font.font("Arial", 18);
         Button addComment = new Button("Add Comment");
         Font buttonFont = Font.font("Segoe UI", FontWeight.NORMAL, FontPosture.REGULAR, 20);
-        addComment.setFont(buttonFont);
+        addComment.setFont(lowerButtonFont);
         addComment.setAlignment(Pos.TOP_CENTER);
-        addComment.setTranslateY(105);
+        addComment.setTranslateY(106);
+        addComment.setTranslateX(-80);
         addComment.setOnAction(event -> {
             // Go to new comment screen
             Stage sureStage = new Stage();
@@ -131,7 +147,7 @@ public class TicketDisplay extends Pane {
 
             Button conButton = new Button("Confirm");
             conButton.setFont(buttonFont);
-            conButton.setTranslateY(30);
+            conButton.setTranslateY(29);
             conButton.setTranslateX(20);
             conButton.setOnAction(randEvent -> {
                 String text = commArea.getText();
@@ -168,6 +184,84 @@ public class TicketDisplay extends Pane {
             sureStage.show();
         });
         layout.getChildren().add(addComment);
+
+        Button editButton = new Button("Edit");
+        editButton.setFont(lowerButtonFont);
+        editButton.setAlignment(Pos.TOP_CENTER);
+        editButton.setTranslateY(73);
+        editButton.setTranslateX(31);
+        editButton.setOnAction(action -> {
+            Main.control.setEditTicket(t);
+        });
+        layout.getChildren().add(editButton);
+
+        Button deleteButton = new Button("Delete");
+        deleteButton.setFont(lowerButtonFont);
+        deleteButton.setAlignment(Pos.TOP_CENTER);
+        deleteButton.setTranslateY(40);
+        deleteButton.setTranslateX(110);
+        deleteButton.setOnAction(event -> {
+            Stage sureStage = new Stage();
+            sureStage.setWidth(300); // Set the initial width
+            sureStage.setHeight(150); // Set the initial height
+            sureStage.show();
+
+            VBox root = new VBox();
+            root.setPrefWidth(300); // Set the preferred width
+            root.setPrefHeight(200); // Set the preferred height
+
+            sureStage.setScene(new Scene(root));
+            sureStage.setResizable(false);
+            sureStage.setTitle("Confirm Deletion");
+
+            // Label prompting the user
+            Label confirmText = new Label("Deleting a ticket is permenant");
+            confirmText.setTranslateY(10);
+            confirmText.setFont(customFont);
+            confirmText.setTextFill(Color.BLACK);
+            confirmText.setMinWidth(sureStage.getWidth());
+            confirmText.setAlignment(Pos.CENTER);
+            confirmText.setTranslateX(-5);
+            root.getChildren().add(confirmText);
+
+            Button confirmButton = new Button("Confirm");
+            confirmButton.setTranslateY(30);
+            confirmButton.setTranslateX(50);
+            confirmButton.setFont(customFont);
+            confirmButton.setAlignment(Pos.CENTER_LEFT);
+            confirmButton.setOnAction(clicked -> {
+                sureStage.close();
+                TicketList.delete(t); // Delete current project from list
+                Main.control.updateScrollProj(); // Update UI
+                Main.control.setHome(); // return to home
+
+                // Update SQL
+                try {
+                    String deleteQueryTickets = "DELETE FROM tbl_tickets WHERE ticket_name  = ?";
+                    PreparedStatement prepStatmentTickets = Main.conn.prepareStatement(deleteQueryTickets);
+                    prepStatmentTickets.setString(1, t.getBugName());
+                    prepStatmentTickets.executeUpdate();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                // Update Ticket UI
+                Main.control.updateScrollTicket();
+
+            });
+            root.getChildren().add(confirmButton);
+
+            Button cancelButton = new Button("Cancel");
+            cancelButton.setTranslateY(-3);
+            cancelButton.setTranslateX(150);
+            cancelButton.setFont(customFont);
+            cancelButton.setOnAction(clicked -> {
+                sureStage.close();
+            });
+            root.getChildren().add(cancelButton);
+        });
+        layout.getChildren().add(deleteButton);
 
         this.getChildren().add(layout);
     }

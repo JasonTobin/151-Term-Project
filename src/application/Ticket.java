@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Ticket implements Comparable<Ticket> {
+    public static int highTicketID = 0;
     private String bugName; // requied
     private String bugDesc; // optional
+    private int ID;
     private String projName;
     private LocalDate bugDate;
     private ArrayList<String> commentList = new ArrayList<>();
@@ -13,6 +15,19 @@ public class Ticket implements Comparable<Ticket> {
     public boolean AddComment(String s) {
         commentList.add(s);
         return false;
+    }
+
+    public ArrayList<String> getComList() {
+        return this.commentList;
+    }
+
+    public void setComment(int i, String t) {
+        this.commentList.set(i, t);
+        return;
+    }
+
+    public void removeComment(int i) {
+        this.commentList.remove(i);
     }
 
     public String getComments() {
@@ -24,8 +39,8 @@ public class Ticket implements Comparable<Ticket> {
         return ret;
     }
 
-    public ArrayList<String> getList() {
-        return commentList;
+    public int getID() {
+        return this.ID;
     }
 
     @Override
@@ -84,18 +99,20 @@ public class Ticket implements Comparable<Ticket> {
         this.bugDesc = d; // optional description
     }
 
-    public Ticket(String n, LocalDate p, String d, String pn) {
-        this.bugDate = p;
-        this.bugName = n;
-        this.bugDesc = d;
-        this.projName = pn;
-    }
+    // public Ticket(String n, LocalDate p, String d, String pn) {
+    // this.bugDate = p;
+    // this.bugName = n;
+    // this.bugDesc = d;
+    // this.projName = pn;
+    // }
 
-    public Ticket(String n, LocalDate p, String d, String pn, String comments) {
+    public Ticket(String n, LocalDate p, String d, String pn, String comments, int id) {
         this.bugDate = p;
         this.bugName = n;
         this.bugDesc = d;
         this.projName = pn;
+        this.ID = id;
+        highTicketID += 1;
         if (comments != null) {
             String[] temp = comments.split(";", -1);
             for (String s : temp) {

@@ -19,7 +19,7 @@ import java.sql.*;
 
 public class NewTicket extends Pane {
 
-    public NewTicket() {
+    public NewTicket(Project homeProject) {
         super();
 
         VBox layout = new VBox();
@@ -41,7 +41,7 @@ public class NewTicket extends Pane {
         for (Project p : ProjectList.getList()) {
             dropDown.getItems().add(p.getProjName());
         }
-        dropDown.setPromptText("Project Name");
+        dropDown.setPromptText(homeProject.getProjName());
         dropDown.setTranslateY(20);
         dropDown.setMinSize(300, 40);
         layout.getChildren().add(dropDown);
@@ -91,16 +91,21 @@ public class NewTicket extends Pane {
                 System.out.println("Name already found, please enter in correct name");
             } else {
                 // Editable date and can have empty description
+                if (dropDown.getValue() == null) {
+                    dropDown.setValue(homeProject.getProjName());
+                }
                 Ticket createdTick = new Ticket(enterName.getText(), dPicker.getValue(), projectDesc.getText(),
-                        dropDown.getValue());
+                        dropDown.getValue(), null, Ticket.highTicketID);
 
                 TicketList.AddTicket(createdTick);
 
                 try {
                     Statement stmt = Main.conn.createStatement();
                     stmt.executeUpdate(
-                            "INSERT INTO tbl_tickets (ticket_name, ticket_date, ticket_desc, ticket_proj) VALUES ('" +
-                                    createdTick.getBugName() + "','" + createdTick.getBugDate().toString() + "','"
+                            "INSERT INTO tbl_tickets (id, ticket_name, ticket_date, ticket_desc, ticket_proj) VALUES ('"
+                                    +
+                                    createdTick.getID() + "','" + createdTick.getBugName() + "','"
+                                    + createdTick.getBugDate().toString() + "','"
                                     + createdTick.getBugDesc() + "','" + createdTick.getTicketProject() + "')");
 
                 } catch (Exception e) {

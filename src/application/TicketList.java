@@ -28,6 +28,13 @@ public class TicketList {
         return true;
     }
 
+    public static void delete(Ticket t) { // Called upon delete button call
+        if (ticketList.contains(t)) {
+            ticketList.remove(t);
+            Main.control.updateScrollProj();
+        }
+    }
+
     public static ArrayList<Ticket> getList() {
         return ticketList;
     }

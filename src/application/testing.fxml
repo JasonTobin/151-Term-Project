@@ -50,9 +50,9 @@
           <children>
                   <TextField fx:id="searchArea" layoutX="8.0" layoutY="14.0" minHeight="25.0" minWidth="170.0" onKeyTyped="#updateScrollProj" prefHeight="25.0" prefWidth="170.0" promptText="Search Projects" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="44.0" />
                   <Button fx:id="newButton" layoutX="189.0" layoutY="14.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#handleButtonClick" prefHeight="25.0" prefWidth="25.0" text="+" AnchorPane.rightAnchor="8.0" />
-                  <ScrollPane fx:id="projScroll" fitToWidth="true" layoutX="8.0" layoutY="46.0" prefHeight="516.0" prefWidth="206.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="46.0">
+                  <ScrollPane fx:id="projScroll" fitToWidth="true" layoutX="8.0" layoutY="46.0" maxWidth="200.0" minWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="46.0">
                      <content>
-                        <VBox fx:id="scrollVBox" minHeight="514.0" minWidth="204.0" prefHeight="514.0" prefWidth="204.0" />
+                        <VBox fx:id="scrollVBox" />
                      </content>
                   </ScrollPane>
           </children>

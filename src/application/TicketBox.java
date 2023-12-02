@@ -23,10 +23,10 @@ public class TicketBox extends StackPane {
     // Ticket box similar to project box
     public TicketBox(Ticket createdTicket) {
         this.tick = createdTicket;
-        rectangle = new Rectangle(190, 50);
+        rectangle = new Rectangle(181, 50);
         rectangle.setFill(Color.WHITE);
         rectangle.setStroke(Color.BLACK);
-        this.setTranslateX(-10);
+        this.setTranslateX(-11);
         // this.setTranslateY(spacing);
 
         this.name = createdTicket.getBugName();

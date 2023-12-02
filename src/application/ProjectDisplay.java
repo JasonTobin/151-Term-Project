@@ -81,7 +81,7 @@ public class ProjectDisplay extends Pane {
         newTicket.setFont(customFont);
         newTicket.setOnAction(event -> {
             System.out.println("Clicked!");
-            Main.control.setNewTicket();
+            Main.control.setNewTicket(p);
         });
         layout.getChildren().add(newTicket);
 
